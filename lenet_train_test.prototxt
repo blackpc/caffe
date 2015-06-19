@@ -9,7 +9,7 @@ layer {
     phase: TRAIN
   }
   hdf5_data_param {
-    source: "../train_one_line.txt"
+    source: "../train.txt"
     batch_size: 20
   }
 }
@@ -23,16 +23,90 @@ layer {
     phase: TEST
   }
   hdf5_data_param {
-    source: "../validate_one_line.txt"
+    source: "../test.txt"
     batch_size: 20
+  }
+}
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 20
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
   }
 }
 
 
 layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "conv1"
+  top: "conv2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 50
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "conv2"
+  top: "conv3"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  convolution_param {
+    num_output: 100
+    kernel_size: 3
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+
+
+
+layer {
   name: "ip0"
   type: "InnerProduct"
-  bottom: "data"
+  bottom: "conv3"
   top: "ip0"
   param {
     lr_mult: 1
@@ -131,7 +205,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 2
+    num_output: 10
     weight_filler {
       type: "xavier"
     }
