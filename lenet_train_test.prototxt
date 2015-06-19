@@ -24,7 +24,7 @@ layer {
   }
   hdf5_data_param {
     source: "../test.txt"
-    batch_size: 1
+    batch_size: 20
   }
 }
 layer {
