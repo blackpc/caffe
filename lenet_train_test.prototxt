@@ -9,7 +9,7 @@ layer {
     phase: TRAIN
   }
   hdf5_data_param {
-    source: "../train_one_line.txt"
+    source: "../train.txt"
     batch_size: 20
   }
 }
@@ -23,8 +23,8 @@ layer {
     phase: TEST
   }
   hdf5_data_param {
-    source: "../validate_one_line.txt"
-    batch_size: 20
+    source: "../test.txt"
+    batch_size: 1
   }
 }
 
@@ -41,7 +41,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 100
+    num_output: 50
     weight_filler {
       type: "xavier"
     }
@@ -72,7 +72,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 50
+    num_output: 25
     weight_filler {
       type: "xavier"
     }
@@ -102,7 +102,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 25
+    num_output: 10
     weight_filler {
       type: "xavier"
     }
