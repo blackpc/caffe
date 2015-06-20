@@ -9,7 +9,7 @@ layer {
     phase: TRAIN
   }
   hdf5_data_param {
-    source: "../train.txt"
+    source: "../train_one_line.txt"
     batch_size: 20
   }
 }
@@ -23,7 +23,7 @@ layer {
     phase: TEST
   }
   hdf5_data_param {
-    source: "../test.txt"
+    source: "../validate_one_line.txt"
     batch_size: 20
   }
 }
@@ -41,7 +41,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 640
+    num_output: 100
     weight_filler {
       type: "xavier"
     }
@@ -72,7 +72,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 320
+    num_output: 50
     weight_filler {
       type: "xavier"
     }
@@ -102,7 +102,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 160
+    num_output: 25
     weight_filler {
       type: "xavier"
     }
@@ -111,7 +111,6 @@ layer {
     }
   }
 }
-
 
 layer {
   name: "relu2"
@@ -132,7 +131,7 @@ layer {
     lr_mult: 2
   }
   inner_product_param {
-    num_output: 80
+    num_output: 2
     weight_filler {
       type: "xavier"
     }
@@ -141,111 +140,12 @@ layer {
     }
   }
 }
-
-
-
-
-layer {
-  name: "relu3"
-  type: "ReLU"
-  bottom: "ip3"
-  top: "ip3"
-}
-
-layer {
-  name: "ip4"
-  type: "InnerProduct"
-  bottom: "ip3"
-  top: "ip4"
-  param {
-    lr_mult: 1
-  }
-  param {
-    lr_mult: 2
-  }
-  inner_product_param {
-    num_output: 40
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-
-
-
-
-
-
-layer {
-  name: "relu4"
-  type: "ReLU"
-  bottom: "ip4"
-  top: "ip4"
-}
-
-layer {
-  name: "ip5"
-  type: "InnerProduct"
-  bottom: "ip4"
-  top: "ip5"
-  param {
-    lr_mult: 1
-  }
-  param {
-    lr_mult: 2
-  }
-  inner_product_param {
-    num_output: 20
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-
-
-
-
-layer {
-  name: "relu5"
-  type: "ReLU"
-  bottom: "ip5"
-  top: "ip5"
-}
-
-layer {
-  name: "ip6"
-  type: "InnerProduct"
-  bottom: "ip5"
-  top: "ip6"
-  param {
-    lr_mult: 1
-  }
-  param {
-    lr_mult: 2
-  }
-  inner_product_param {
-    num_output: 10
-    weight_filler {
-      type: "xavier"
-    }
-    bias_filler {
-      type: "constant"
-    }
-  }
-}
-
 
 
 layer {
   name: "accuracy"
   type: "Accuracy"
-  bottom: "ip6"
+  bottom: "ip3"
   bottom: "label"
   top: "accuracy"
   include {
@@ -256,7 +156,7 @@ layer {
 layer {
   name: "loss"
   type: "SoftmaxWithLoss"
-  bottom: "ip6"
+  bottom: "ip3"
   bottom: "label"
   top: "loss"
 }
